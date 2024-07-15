@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258035882970",
+    "project_id": "blogapp-c2fdb",
+    "storage_bucket": "blogapp-c2fdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258035882970:android:22a9ff2c030cfcc5da7ee3",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYsQ_9gjrRTOtjoYzN_X83cDajUfy9GMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
