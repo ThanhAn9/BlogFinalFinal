@@ -1,7 +1,11 @@
 package com.example.myapplication;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.MenuItem;
 import android.view.Menu;
@@ -10,8 +14,10 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.Activities.LoginActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.HomeFragment;
+import com.example.myapplication.ui.home.HomeViewModel;
 import com.example.myapplication.ui.profile.ProfileFragment;
 import com.example.myapplication.ui.settings.SettingsFragment;
+import com.example.myapplication.ui.slideshow.SlideshowFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -29,6 +35,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -39,6 +46,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    Dialog popAddPost;
+    ImageView popupUserImage, popupPostImage, popupAddBtn;
+    TextView popupTitle, popupDescription;
+    ProgressBar popupClickProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +62,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         //ini
         mAuth = FirebaseAuth.getInstance();
         currentUser=mAuth.getCurrentUser();
+        iniPopup();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                popAddPost.show();
+
             }
         });
         DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -77,6 +90,41 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         updateNavHeader();
     }
 
+//Khai báo các biến dùng post
+    private void iniPopup(){
+
+        popAddPost = new Dialog(this);
+        popAddPost.setContentView(R.layout.popup_add_post);
+        popAddPost.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popAddPost.getWindow().setLayout(Toolbar.LayoutParams.MATCH_PARENT,Toolbar.LayoutParams.WRAP_CONTENT);
+        popAddPost.getWindow().getAttributes().gravity = Gravity.TOP;
+
+        popupUserImage = popAddPost.findViewById(R.id.popup_user_image);
+        popupPostImage = popAddPost.findViewById(R.id.popup_img);
+        popupTitle = popAddPost.findViewById(R.id.popup_title);
+        popupDescription = popAddPost.findViewById(R.id.popup_description);
+        popupAddBtn = popAddPost.findViewById(R.id.popup_add);
+        popupClickProgress = popAddPost.findViewById(R.id.popup_progressBar);
+
+        //Tải ảnh đại diện người dùng
+
+        Glide.with(Home.this).load(currentUser.getPhotoUrl()).into(popupUserImage);
+
+
+        //xử lý khi ấn vào post
+        popupAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupAddBtn.setVisibility(View.INVISIBLE);
+                popupClickProgress.setVisibility(View.VISIBLE);
+
+
+
+
+            }
+        });
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
