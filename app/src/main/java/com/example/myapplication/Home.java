@@ -1,12 +1,17 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.MenuItem;
 import android.view.Menu;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Activities.LoginActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.HomeFragment;
+import com.example.myapplication.ui.profile.ProfileFragment;
+import com.example.myapplication.ui.settings.SettingsFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -64,15 +69,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setNavigationItemSelectedListener(this);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_camera, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_manage, R.id.nav_share, R.id.nav_logout)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_settings,
+                R.id.nav_signout)
                 .setDrawerLayout(drawer)
                 .build();
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
 
         updateNavHeader();
     }
@@ -110,18 +110,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id==R.id.nav_camera){
-            //Handle the camera action
-        } else if (id==R.id.nav_gallery) {
-
-        } else if (id==R.id.nav_slideshow) {
-
-        } else if (id==R.id.nav_manage) {
-
-        } else if (id==R.id.nav_share) {
-
-        } else if (id==R.id.nav_logout) {
-
+        if(id==R.id.nav_home){
+            getSupportActionBar().setTitle("Home");
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,new HomeFragment()).commit();
+        } else if (id==R.id.nav_profile) {
+            getSupportActionBar().setTitle("Profile");
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,new ProfileFragment()).commit();
+        } else if (id==R.id.nav_settings) {
+            getSupportActionBar().setTitle("Settings");
+            getSupportFragmentManager().beginTransaction().replace(R.id.container,new SettingsFragment()).commit();
+        } else if (id==R.id.nav_signout) {
+            FirebaseAuth.getInstance().signOut();
+            Intent loginActivity = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(loginActivity);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -143,12 +145,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         Glide.with(this).load(currentUser.getPhotoUrl()).into(navUserPhoto);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

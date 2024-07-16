@@ -7,7 +7,7 @@
         android:id="@+id/textProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Home Fragment"
+        android:text="Profile Fragment"
         android:textSize="18sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
