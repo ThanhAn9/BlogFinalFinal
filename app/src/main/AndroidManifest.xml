@@ -19,11 +19,6 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.Home"
-            android:exported="false"
-            android:label="@string/title_activity_home"
-            android:theme="@style/Theme.MyApplication.NoActionBar" />
-        <activity
             android:name=".Activities.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -34,7 +29,7 @@
         </activity>
         <activity
             android:name=".Activities.HomeActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
         <activity
             android:name=".Activities.RegisterActivity"
             android:exported="true">
