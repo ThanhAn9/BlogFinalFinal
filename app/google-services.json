@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "258035882970",
+    "firebase_url": "https://blogapp-c2fdb-default-rtdb.firebaseio.com",
     "project_id": "blogapp-c2fdb",
     "storage_bucket": "blogapp-c2fdb.appspot.com"
   },
