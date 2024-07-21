@@ -1,6 +1,7 @@
 package com.example.myapplication.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Activities.PostDetailActivity;
 import com.example.myapplication.Models.Post;
 import com.example.myapplication.R;
 
@@ -60,6 +62,28 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             tvTitle = itemView.findViewById(R.id.row_post_title);
             imgPost = itemView.findViewById(R.id.row_post_img);
             imgPostProfile = itemView.findViewById(R.id.row_post_profile_img);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent postDetailActivity = new Intent(mContext, PostDetailActivity.class);
+                    int position = getAdapterPosition();
+
+                    postDetailActivity.putExtra("title",mData.get(position).getTitle());
+                    postDetailActivity.putExtra("postImage",mData.get(position).getPicture());
+                    postDetailActivity.putExtra("description",mData.get(position).getDescription());
+                    postDetailActivity.putExtra("postKey",mData.get(position).getPostKey());
+                    postDetailActivity.putExtra("userPhoto",mData.get(position).getUserPhoto());
+                    // will fix this later i forgot to add user name to post object
+                    //postDetailActivity.putExtra("userName",mData.get(position).getUsername);
+                    long timestamp  = (long) mData.get(position).getTimeStamp();
+                    postDetailActivity.putExtra("postDate",timestamp) ;
+                    mContext.startActivity(postDetailActivity);
+
+
+
+                }
+            });
         }
     }
 }
